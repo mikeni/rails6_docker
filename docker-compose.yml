@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: rails6_docker
+      POSTGRES_USER: rails6_docker_user
+      POSTGRES_PASSWORD: somepassword
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    
+  web:
+    build: .
+    # command: bash -c "foreman start -f Procfile.dev-server"
+    # command: rails server -p 3000 -b '0.0.0.0'
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rake db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - '.:/app'
+    ports:
+      - '3000:3000'
+    environment:
+      POSTGRES_DB: rails6_docker
+      POSTGRES_USER: rails6_docker_user
+      POSTGRES_PASSWORD: somepassword
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - db
+volumes:
+  db-data:
+    driver: local
+networks:
+    default:
+        driver: bridge

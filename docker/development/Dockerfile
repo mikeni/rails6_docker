@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 FROM ruby:2.6.5
 
 # RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
+RUN pwd
 RUN ruby -v
 
 # Install apt based dependencies required to run Rails as 
@@ -29,7 +29,7 @@ RUN yarn -v
 # commands.
 RUN mkdir -p /app 
 WORKDIR /app
-
+RUN pwd
 
 
 # Copy the Gemfile as well as the Gemfile.lock and install 

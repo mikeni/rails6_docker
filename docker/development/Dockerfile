@@ -1,4 +1,3 @@
-FROM ubuntu:14.04
 FROM ruby:2.6.5
 
 # RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -47,7 +46,8 @@ RUN gem install bundler && gem install foreman && bundle install --verbose --job
 # Copy the main application.
 COPY . ./
 
-RUN bin/rake assets:precompile
+# RUN bin/rake assets:precompile
+RUN bundle exec rake assets:precompile
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.

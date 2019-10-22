@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   db:
-    image: postgres
+    image: postgres:12.0
     ports:
       - "5432:5432"
     environment:
@@ -12,6 +12,7 @@ services:
       - db-data:/var/lib/postgresql/data
     
   web:
+    image: rails6_docker/development/web
     build:
       context: .
       dockerfile: docker/development/Dockerfile
@@ -32,7 +33,9 @@ services:
       - db
 volumes:
   db-data:
+    name: rails6_docker_development
     driver: local
 networks:
-    default:
-        driver: bridge
+  default:
+    name: rails6_docker/development/default
+    driver: bridge

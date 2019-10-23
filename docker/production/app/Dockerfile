@@ -1,7 +1,7 @@
 FROM ruby:2.6.5
 
 # RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN pwd
+
 RUN ruby -v
 
 # Install apt based dependencies required to run Rails as 
@@ -28,7 +28,7 @@ RUN yarn -v
 # commands.
 RUN mkdir -p /app 
 WORKDIR /app
-RUN pwd
+
 
 
 # Copy the Gemfile as well as the Gemfile.lock and install 
@@ -46,17 +46,18 @@ RUN gem install bundler && gem install foreman && bundle install --verbose --job
 # Copy the main application.
 COPY . ./
 
-
-
 # Setting env up
 ENV RAILS_ENV="production"
 ENV RACK_ENV="production"
 ENV SECRET_KEY_BASE="8704xxhhb0b5889cb81d8452a218251f7940d285ffgg79a3c9b4108dd1e9875227a868bb122bc23c833432ca37b3fe7b7c514xxccc9285661e5b2ce8a5a53453"
-
+# ENV RAILS_SERVE_STATIC_FILES="true"
 
 
 # RUN bin/rake assets:precompile
 RUN bundle exec rake assets:precompile
+
+
+
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
